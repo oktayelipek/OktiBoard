@@ -1,8 +1,14 @@
 #include "kb.h"
 
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     
 // Macro Declarations
+
+	enum custom_keycodes {
+		QMKBEST = SAFE_RANGE,
+	};
+
     enum {
         Create_Components = 0,
         Show_Components = 1,
@@ -29,8 +35,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		M(Create_Components), M(Show_Components), M(Team_Library), M(Detach_Instance), 
 		M(All_Layers), M(Bring_Forward), M(Send_Backward), M(Show_HideGrid), 
 		M(Run_Last_Plugin), M(Text_Align_Left), M(Text_Align_Center), M(Text_Align_Right), 
-		M(Auto_Layout), M(Remove_Auto_Layout), M(Copy_Style), M(Paste_Style)
+		M(Auto_Layout), M(Remove_Auto_Layout), M(COPYPASTESTYLE), M(BOS)
 
+};
+
+bool is_copied = false; # inner variable kopyalandı mı diye
+
+# layerde CUSTOMCODE diye bir tuş olsun..
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case COPYPASTESTYLE:
+      if(!is_copied) {
+        register_code(KC_LGUI(KC_LALT(KC_C)));
+        is_copied = true;
+      } else {
+        register_code(KC_LGUI(KC_LALT(KC_V)));
+        is_copied = false; // state'i sıfırla
+      }
+      break;
+  }
+  return true;
 };
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
@@ -108,7 +133,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 			}
 			break;
         case 14: // Copy Style
-            return MACRO( T(LGUI), T(LALT), T(C), END );
+            //RETURN
 			}
 			break;
         case 15: // Paste Style
