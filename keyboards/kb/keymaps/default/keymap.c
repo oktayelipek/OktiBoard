@@ -59,23 +59,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		M(AUTOLAY), M(BOS), M(COPYPASTESTYLE), MO(_LAB)
 	),
 
-/* Figma
+/* Lab
  * ,---------------------------.
- * |  CC  |  SC  |  TL  |  DI  |
+ * |      |      |      |      |
  * |------+------+------+------|
- * |  LYR |  BF  |  SB  | SHG  |  
+ * |      |      |      |      |  
  * |------+------+------+------|
- * | PLG  | TAL  | TAC  | TAR  |   
+ * |      |      |      |      |   
  * |------+------+------+------|
- * | AUL  |      |  CPS |      |
+ * | LCK  |      |      |      |
  * `---------------------------'
  */
 
 [_LAB] = KEYMAP(
-		MO(_FIGMA), M(Show_Components), M(Team_Library), M(Detach_Instance), 
-		MO(_FIGMA), M(Show_Components), M(Team_Library), M(Detach_Instance), 
-		MO(_FIGMA), M(Show_Components), M(Team_Library), M(Detach_Instance), 
-		MO(_FIGMA), M(Show_Components), M(Team_Library), MO(_FIGMA)
+		MO(_FIGMA), LOCKSCREEN, LOCKSCREEN, LOCKSCREEN, 
+		LOCKSCREEN, LOCKSCREEN, LOCKSCREEN, LOCKSCREEN, 
+		LOCKSCREEN, LOCKSCREEN, LOCKSCREEN, LOCKSCREEN, 
+		LOCKSCREEN , LOCKSCREEN, LOCKSCREEN, MO(_FIGMA)
 
 	),
 };
@@ -190,9 +190,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 	}
 	return MACRO_NONE;
 }
-
-
-
 
 
 void matrix_init_user(void) {
