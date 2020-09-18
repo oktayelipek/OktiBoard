@@ -25,17 +25,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         Text_Align_Center = 10,
         Text_Align_Right = 11,
 
-        Auto_Layout = 12,
-        Remove_Auto_Layout = 13,
-        Copy_Style = 14,
-        Paste_Style = 15,
+        OKTIKEY = 12,
+        OKTIKEY = 13,
+        OKTIKEY = 14,
+        OKTIKEY = 15,
     };
 
 	KEYMAP(
 		M(Create_Components), M(Show_Components), M(Team_Library), M(Detach_Instance), 
 		M(All_Layers), M(Bring_Forward), M(Send_Backward), M(Show_HideGrid), 
 		M(Run_Last_Plugin), M(Text_Align_Left), M(Text_Align_Center), M(Text_Align_Right), 
-		M(Auto_Layout), M(Remove_Auto_Layout), M(COPYPASTESTYLE), M(BOS)
+		M(AUTOLAY), M(BOS), M(COPYPASTESTYLE), M(BOS)
 
 };
 
@@ -51,6 +51,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         is_copied = true;
       } else {
         register_code(KC_LGUI(KC_LALT(KC_V)));
+        is_copied = false; // state'i sıfırla
+      }
+      break;
+
+	  case AUTOLAY:
+      if(!is_copied) {
+        register_code( T(LSHIFT), T(A), END );
+        is_copied = true;
+      } else {
+        register_code( T(LGUI), T(LSHIFT), T(A), END );
         is_copied = false; // state'i sıfırla
       }
       break;
@@ -124,7 +134,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 			break;
         case 12: // Auto Layout
 			if (record->event.pressed) {
-				return MACRO( T(LSHIFT), T(A), END );
+				//RETURN
 			}
 			break;
         case 13: // Remove Auto Layout
