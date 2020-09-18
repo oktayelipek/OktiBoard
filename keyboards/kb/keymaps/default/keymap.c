@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Lab
  * ,---------------------------.
- * | FGM  |      |      |      |
+ * | FGM  |      |      | RESET|
  * |------+------+------+------|
  * |      |      |      |      |  
  * |------+------+------+------|
@@ -72,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 [_LAB] = KEYMAP(
-		MO(_FIGMA), LOCKSCREEN, LOCKSCREEN, LOCKSCREEN, 
+		MO(_FIGMA), LOCKSCREEN, LOCKSCREEN, RESET, 
 		LOCKSCREEN, LOCKSCREEN, LOCKSCREEN, LOCKSCREEN, 
 		LOCKSCREEN, LOCKSCREEN, LOCKSCREEN, LOCKSCREEN, 
 		LOCKSCREEN , LOCKSCREEN, LOCKSCREEN, MO(_FIGMA)
