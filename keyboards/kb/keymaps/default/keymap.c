@@ -1,8 +1,15 @@
 #include "kb.h"
+#include QMK_KEYBOARD_H
 
+enum oktiboard_layer {
+  _FIGMA,
+  _LAB,
+};
+
+#define LOCKSCREEN LCTL(LSFT(KC_POWER)) // Screen Lock shortcut for OSX
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    
+
 // Macro Declarations
 
 	enum custom_keycodes {
@@ -31,12 +38,46 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         OKTIKEY = 15,
     };
 
-	KEYMAP(
+
+/* Figma
+ * ,---------------------------.
+ * |  CC  |  SC  |  TL  |  DI  |
+ * |------+------+------+------|
+ * |  LYR |  BF  |  SB  | SHG  |  
+ * |------+------+------+------|
+ * | PLG  | TAL  | TAC  | TAR  |   
+ * |------+------+------+------|
+ * | AUL  |      |  CPS |      |
+ * `---------------------------'
+ */
+
+
+[_FIGMA] = KEYMAP(
 		M(Create_Components), M(Show_Components), M(Team_Library), M(Detach_Instance), 
 		M(All_Layers), M(Bring_Forward), M(Send_Backward), M(Show_HideGrid), 
 		M(Run_Last_Plugin), M(Text_Align_Left), M(Text_Align_Center), M(Text_Align_Right), 
-		M(AUTOLAY), M(BOS), M(COPYPASTESTYLE), M(BOS)
+		M(AUTOLAY), M(BOS), M(COPYPASTESTYLE), MO(_LAB)
+	),
 
+/* Figma
+ * ,---------------------------.
+ * |  CC  |  SC  |  TL  |  DI  |
+ * |------+------+------+------|
+ * |  LYR |  BF  |  SB  | SHG  |  
+ * |------+------+------+------|
+ * | PLG  | TAL  | TAC  | TAR  |   
+ * |------+------+------+------|
+ * | AUL  |      |  CPS |      |
+ * `---------------------------'
+ */
+
+[_LAB] = KEYMAP(
+		MO(_FIGMA), M(Show_Components), M(Team_Library), M(Detach_Instance), 
+		MO(_FIGMA), M(Show_Components), M(Team_Library), M(Detach_Instance), 
+		MO(_FIGMA), M(Show_Components), M(Team_Library), M(Detach_Instance), 
+		MO(_FIGMA), M(Show_Components), M(Team_Library), MO(_FIGMA)
+
+	),
 };
 
 bool is_copied = false; # inner variable kopyalandı mı diye
@@ -57,10 +98,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 	  case AUTOLAY:
       if(!is_copied) {
-        register_code( T(LSHIFT), T(A), END );
+        register_code(KC_LSHIFT(KC_A));
         is_copied = true;
       } else {
-        register_code( T(LGUI), T(LSHIFT), T(A), END );
+        register_code(KC_LGUI(KC_LSHIFT(KC_A)));
         is_copied = false; // state'i sıfırla
       }
       break;
@@ -74,81 +115,74 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 	switch (id) {
 		case 0: // Create Component
 			if (record->event.pressed) {
-				return MACRO( T(LALT), T(LGUI), T(K), END );
+				return MACRO( T(LALT), T(LGUI), T(KC_K), END );
 			}
 			break;
         case 1: // Show Components
 			if (record->event.pressed) {
-				return MACRO( T(LALT), T(2), END );
+				return MACRO( T(LALT), T(KC_KP_2), END );
 			}
             break;
 		case 2: // Team Library
 			if (record->event.pressed) {
-				return MACRO( T(LALT), T(LGUI), T(O), END );
+				return MACRO( T(LALT), T(LGUI), T(KC_O), END );
 			}
 			break;
 		case 3: // Detach Instance
 			if (record->event.pressed) {
-				return MACRO( T(LALT), T(LGUI), T(B), END );
+				return MACRO( T(LALT), T(LGUI), T(KC_B), END );
 			}
 			break;
         case 4: // Send Backward
 			if (record->event.pressed) {
-				return MACRO( T(LGUI), T(Ğ), END );
+				return MACRO( T(LGUI), T(KC_LBRACKET), END );
 			}
 			break;
-        case 5: // Send Backward
+        case 5: // Bring Forward
 			if (record->event.pressed) {
-				return MACRO( T(LGUI), T(Ğ), END );
+				return MACRO( T(LGUI), T(KC_RBRACKET), END );
 			}
 			break;
-        case 6: // Bring Forward
+        case 6: // Show/Hide Grid
 			if (record->event.pressed) {
-				return MACRO( T(LGUI), T(Ü), END );
+				return MACRO( T(LCTRL), T(KC_G), END );
 			}
 			break;
-        case 7: // Show/Hide Grid
+        case 7: // Text Align Left
 			if (record->event.pressed) {
-				return MACRO( T(LCTRL), T(G), END );
+				return MACRO( T(LALT), T(LGUI), T(KC_L), END );
 			}
 			break;
-        case 8: // Text Align Left
+        case 8: // Text Align Right
 			if (record->event.pressed) {
-				return MACRO( T(LALT), T(LGUI), T(L), END );
+				return MACRO( T(LALT), T(LGUI), T(KC_R), END );
 			}
 			break;
-        case 9: // Text Align Right
+        case 9: // Text Align Center
 			if (record->event.pressed) {
-				return MACRO( T(LALT), T(LGUI), T(R), END );
+				return MACRO( T(LALT), T(LGUI), T(KC_T), END );
 			}
 			break;
-        case 10: // Text Align Center
+        case 10: // Run Last Plugin
 			if (record->event.pressed) {
-				return MACRO( T(LALT), T(LGUI), T(T), END );
+				return MACRO( T(LGUI), T(LALT), T(KC_P), END );
 			}
 			break;
-        case 11: // Run Last Plugin
-			if (record->event.pressed) {
-				return MACRO( T(LGUI), T(LALT), T(P), END );
-			}
-			break;
-        case 12: // Auto Layout
+        case 11: // Auto Layout
 			if (record->event.pressed) {
 				//RETURN
 			}
 			break;
-        case 13: // Remove Auto Layout
-			if (record->event.pressed) {
-				return MACRO( T(LGUI), T(LSHIFT), T(A), END );
+        case 12: // Remove Auto Layout
+			//RETURN
 			}
 			break;
-        case 14: // Copy Style
+        case 13: // Copy Style
             //RETURN
 			}
 			break;
-        case 15: // Paste Style
-			if (record->event.pressed) {
-				return MACRO( T(LGUI), T(LALT), T(V), END );
+        case 14: // Paste Style
+			//RETURN
 			}
 			break;
 
@@ -156,6 +190,10 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 	}
 	return MACRO_NONE;
 }
+
+
+
+
 
 void matrix_init_user(void) {
 }
