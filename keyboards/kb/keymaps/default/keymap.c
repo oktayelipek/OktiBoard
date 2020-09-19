@@ -1,21 +1,16 @@
 #include "kb.h"
 #include QMK_KEYBOARD_H
 
-enum oktiboard_layer {
+#define LOCKSCREEN LCTL(LSFT(KC_POWER)) // Screen Lock shortcut for OSX
+
+enum oktiboard_layers {
   _FIGMA,
   _LAB,
 };
 
-#define LOCKSCREEN LCTL(LSFT(KC_POWER)) // Screen Lock shortcut for OSX
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // Macro Declarations
-
-	enum custom_keycodes {
-		QMKBEST = SAFE_RANGE,
-	};
-
     enum {
         Create_Components = 0,
         Show_Components = 1,
@@ -31,11 +26,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         Text_Align_Left = 9,
         Text_Align_Center = 10,
         Text_Align_Right = 11,
-
-        OKTIKEY = 12,
-        OKTIKEY = 13,
-        OKTIKEY = 14,
-        OKTIKEY = 15,
     };
 
 
@@ -47,7 +37,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------|
  * | PLG  | TAL  | TAC  | TAR  |   
  * |------+------+------+------|
- * | AUL  |      |  CPS |      |
+ * | AUL  |      |  CPS | LAB  |
  * `---------------------------'
  */
 
@@ -80,9 +70,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	),
 };
 
-bool is_copied = false; # inner variable kopyalandı mı diye
+bool is_copied = false; // inner variable kopyalandı mı diye
 
-# layerde CUSTOMCODE diye bir tuş olsun..
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
